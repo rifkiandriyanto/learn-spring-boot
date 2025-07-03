@@ -1,26 +1,37 @@
 package com.example.learn_spring;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class SoftwareEngineer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private List<String> techStack;
+    private String techStack; // Simple String, bukan List
 
+    // Default constructor
     public SoftwareEngineer() {
     }
 
-    // Constructor yang fixed - convert String ke List<String>
+    // Constructor dengan semua parameter
     public SoftwareEngineer(Integer id, String name, String techStack) {
         this.id = id;
         this.name = name;
-        // Split comma-separated string menjadi List
-        this.techStack = Arrays.asList(techStack.split("\\s*,\\s*"));
+        this.techStack = techStack;
     }
 
-    // Getters & Setters yang konsisten
+    // Constructor tanpa ID (untuk insert baru)
+    public SoftwareEngineer(String name, String techStack) {
+        this.name = name;
+        this.techStack = techStack;
+    }
+
+    // Getters & Setters
     public Integer getId() {
         return id;
     }
@@ -37,37 +48,31 @@ public class SoftwareEngineer {
         this.name = name;
     }
 
-    // Fixed: return List<String> bukan String
-    public List<String> getTechStack() {
+    public String getTechStack() {
         return techStack;
     }
 
-    // Fixed: parameter List<String> bukan String
-    public void setTechStack(List<String> techStack) {
+    public void setTechStack(String techStack) {
         this.techStack = techStack;
     }
 
-    // Setter tambahan untuk String input
-    public void setTechStackFromString(String techStack) {
-        this.techStack = Arrays.asList(techStack.split("\\s*,\\s*"));
-    }
-
-    // Modern hashCode menggunakan Objects.hash()
+    // hashCode & equals
     @Override
     public int hashCode() {
         return Objects.hash(id, name, techStack);
     }
 
-    // Modern equals menggunakan Objects.equals() - LENGKAP
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
         SoftwareEngineer other = (SoftwareEngineer) obj;
         return Objects.equals(id, other.id) &&
-               Objects.equals(name, other.name) &&
-               Objects.equals(techStack, other.techStack);
+                Objects.equals(name, other.name) &&
+                Objects.equals(techStack, other.techStack);
     }
 
     @Override
@@ -75,7 +80,7 @@ public class SoftwareEngineer {
         return "SoftwareEngineer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", techStack=" + techStack +
+                ", techStack='" + techStack + '\'' +
                 '}';
     }
 }
