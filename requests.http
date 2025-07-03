@@ -1,17 +1,41 @@
 ### Request 1 - Get Root
-GET http://localhost:8080
+GET http://localhost:8080/
 
 ### Request 2 - Get All Engineers  
 GET http://localhost:8080/api/v1/software-engineers
 
-### Request 2 - Get engineer by id  
-GET http://localhost:8080/api/v1/software-engineers/2
+### Request 3 - Get Engineer by ID  
+GET http://localhost:8080/api/v1/software-engineers/1
 
-### Request 3 - Create Engineer
+### Request 4 - Create Engineer
 POST http://localhost:8080/api/v1/software-engineers
 Content-Type: application/json
 
 {
-  "name": "Jason Ranto",
-  "techStack": "Java, Spring Boot, Spring"
+  "name": "Lisa",
+  "techStack": "Django, Spring Boot, PostgreSQL, Docker"
 }
+
+### Request 5 - Update Engineer
+PUT http://localhost:8080/api/v1/software-engineers/1
+Content-Type: application/json
+
+{
+  "name": "Jason Ranto Updated",
+  "techStack": "Java, Spring Boot, PostgreSQL, Docker, Kubernetes, React"
+}
+
+### Request 6 - Delete Engineer
+DELETE http://localhost:8080/api/v1/software-engineers/1
+
+### Request 7 - Test Validation Error
+POST http://localhost:8080/api/v1/software-engineers
+Content-Type: application/json
+
+{
+  "name": "",
+  "techStack": "Java"
+}
+
+### Request 8 - Test Not Found Error
+GET http://localhost:8080/api/v1/software-engineers/999
