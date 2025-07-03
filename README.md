@@ -1,615 +1,357 @@
-**📚 README.md for Beginners - Spring Boot with Maven**
+# Software Engineer API - User Guide
 
-```markdown
-# 🚀 Learn Spring Boot - Beginner's Guide
+A RESTful API for managing software engineers built with Spring Boot and PostgreSQL.
 
-> **Spring Boot learning project using Maven for beginners**
+## 🚀 Getting Started
 
-## 📋 Table of Contents
-- [System Requirements](#-system-requirements)
-- [Installation & Setup](#-installation--setup)
-- [How to Run the Application](#-how-to-run-the-application)
-- [Automated Scripts](#-automated-scripts)
-- [Development Workflow](#-development-workflow)
-- [Testing](#-testing)
-- [Build & Deploy](#-build--deploy)
-- [Troubleshooting](#-troubleshooting)
-- [Tips & Tricks](#-tips--tricks)
+### Prerequisites
+- Docker and Docker Compose installed on your system
+- Java 17 or higher (for development)
+- API testing tool (Postman, Thunder Client, or curl)
 
-## 🔧 System Requirements
+### Quick Setup
 
-### Prerequisites:
-- ✅ **Java 21** (already installed via SDKMAN)
-- ✅ **Maven** (or use Maven Wrapper)
-- ✅ **Git** 
-- ✅ **VS Code** (optional, but recommended)
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd learn-spring
+   ```
 
-### Check Installation:
-```bash
-# Check Java version
-java -version
+2. **Start the application with Docker**
+   ```bash
+   docker-compose up -d
+   ```
 
-# Check Maven (optional, we use wrapper)
-mvn -version
+3. **Verify the application is running**
+   ```bash
+   curl http://localhost:8080/
+   ```
+   You should see: `Hello world learn spring boot`
 
-# Check Git
-git --version
+## 📋 API Endpoints
+
+### Base URL
+```
+http://localhost:8080/api/v1/software-engineers
 ```
 
-## 📦 Installation & Setup
+### Available Operations
 
-### 1. Clone/Download Project
-```bash
-# If from Git
-git clone <repository-url>
-cd learn-spring
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Welcome message |
+| GET | `/api/v1/software-engineers` | Get all software engineers |
+| GET | `/api/v1/software-engineers/{id}` | Get engineer by ID |
+| POST | `/api/v1/software-engineers` | Create new engineer |
+| PUT | `/api/v1/software-engineers/{id}` | Update engineer by ID |
+| DELETE | `/api/v1/software-engineers/{id}` | Delete engineer by ID |
 
-# Or if already exists
-cd ~/workspace/learn/learn-spring
+## 🔧 API Usage Examples
+
+### 1. Get All Engineers
+```http
+GET http://localhost:8080/api/v1/software-engineers
 ```
 
-### 2. Setup Maven Wrapper (Automatic)
-```bash
-# Maven wrapper is provided, ready to use
-./mvnw --version
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "techStack": "Java, Spring Boot, PostgreSQL",
+    "createdAt": "2024-01-15T10:30:00",
+    "updatedAt": "2024-01-15T10:30:00"
+  }
+]
 ```
 
-## 🚀 How to Run the Application
-
-### 🎯 Fastest Way (Beginners):
-```bash
-# Navigate to project folder
-cd ~/workspace/learn/learn-spring
-
-# Run the application
-./mvnw spring-boot:run
+### 2. Get Engineer by ID
+```http
+GET http://localhost:8080/api/v1/software-engineers/1
 ```
 
-### 📱 Access Application:
-- **URL**: http://localhost:8080
-- **Health Check**: http://localhost:8080/actuator/health
-- **Stop**: Press `Ctrl + C` in terminal
-
-## 🛠️ Automated Scripts
-
-### 📝 Create Helper Scripts
-
-#### 1. **run.sh** - Run Application
-```bash
-#!/bin/bash
-# File: run.sh
-
-echo "🚀 Starting Spring Boot Application..."
-echo "📁 Project: $(basename $(pwd))"
-echo "☕ Java: $(java -version 2>&1 | head -n 1 | cut -d'"' -f2)"
-echo "📦 Maven: $(./mvnw --version | head -n 1)"
-echo ""
-
-echo "🔄 Starting application..."
-echo "🌐 Will be available at: http://localhost:8080"
-echo "⏹️  Press Ctrl+C to stop"
-echo ""
-
-./mvnw spring-boot:run
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "techStack": "Java, Spring Boot, PostgreSQL",
+  "createdAt": "2024-01-15T10:30:00",
+  "updatedAt": "2024-01-15T10:30:00"
+}
 ```
 
-#### 2. **dev.sh** - Development Mode
-```bash
-#!/bin/bash
-# File: dev.sh
+### 3. Create New Engineer
+```http
+POST http://localhost:8080/api/v1/software-engineers
+Content-Type: application/json
 
-echo "🔧 Starting in DEVELOPMENT mode..."
-echo "📋 Features:"
-echo "   - Hot reload enabled"
-echo "   - Debug logging"
-echo "   - Dev profile active"
-echo ""
-
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+{
+  "name": "Jane Smith",
+  "techStack": "JavaScript, React, Node.js, MongoDB"
+}
 ```
 
-#### 3. **build.sh** - Build Project
-```bash
-#!/bin/bash
-# File: build.sh
-
-echo "🔨 Building Spring Boot Application..."
-echo ""
-
-# Clean previous build
-echo "🧹 Cleaning previous build..."
-./mvnw clean
-
-# Compile and package
-echo "📦 Compiling and packaging..."
-./mvnw package -DskipTests
-
-# Check if build successful
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "✅ Build successful!"
-    echo "📁 JAR file created in: target/"
-    ls -la target/*.jar
-    echo ""
-    echo "🚀 To run: java -jar target/*.jar"
-else
-    echo ""
-    echo "❌ Build failed!"
-    exit 1
-fi
+**Response:**
+```json
+{
+  "id": 2,
+  "name": "Jane Smith",
+  "techStack": "JavaScript, React, Node.js, MongoDB",
+  "createdAt": "2024-01-15T11:00:00",
+  "updatedAt": "2024-01-15T11:00:00"
+}
 ```
 
-#### 4. **test.sh** - Run Tests
-```bash
-#!/bin/bash
-# File: test.sh
+### 4. Update Engineer
+```http
+PUT http://localhost:8080/api/v1/software-engineers/1
+Content-Type: application/json
 
-echo "🧪 Running Tests..."
-echo ""
-
-./mvnw test
-
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "✅ All tests passed!"
-else
-    echo ""
-    echo "❌ Some tests failed!"
-    exit 1
-fi
+{
+  "name": "John Doe Updated",
+  "techStack": "Java, Spring Boot, PostgreSQL, Docker, Kubernetes"
+}
 ```
 
-#### 5. **setup.sh** - Initial Setup
-```bash
-#!/bin/bash
-# File: setup.sh
-
-echo "⚙️  Setting up Spring Boot project..."
-echo ""
-
-# Make scripts executable
-echo "🔧 Making scripts executable..."
-chmod +x run.sh dev.sh build.sh test.sh clean.sh
-
-# Download dependencies
-echo "📦 Downloading dependencies..."
-./mvnw dependency:resolve
-
-# Compile project
-echo "🔨 Initial compilation..."
-./mvnw compile
-
-echo ""
-echo "✅ Setup complete!"
-echo ""
-echo "📋 Available commands:"
-echo "   ./run.sh     - Run application"
-echo "   ./dev.sh     - Run in development mode"  
-echo "   ./build.sh   - Build JAR file"
-echo "   ./test.sh    - Run tests"
-echo "   ./clean.sh   - Clean project"
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "John Doe Updated",
+  "techStack": "Java, Spring Boot, PostgreSQL, Docker, Kubernetes",
+  "createdAt": "2024-01-15T10:30:00",
+  "updatedAt": "2024-01-15T11:15:00"
+}
 ```
 
-#### 6. **clean.sh** - Clean Project
-```bash
-#!/bin/bash
-# File: clean.sh
-
-echo "🧹 Cleaning project..."
-echo ""
-
-# Maven clean
-./mvnw clean
-
-# Remove logs
-rm -f *.log
-rm -f logs/*.log 2>/dev/null
-
-# Remove temp files
-rm -rf .tmp/
-rm -f nohup.out
-
-echo "✅ Project cleaned!"
+### 5. Delete Engineer
+```http
+DELETE http://localhost:8080/api/v1/software-engineers/1
 ```
 
-### 🎯 Create All Scripts at Once:
-```bash
-# Run in project folder
-cd ~/workspace/learn/learn-spring
-
-# Create script generator
-cat > create-scripts.sh << 'EOF'
-#!/bin/bash
-
-echo "📝 Creating Spring Boot helper scripts..."
-
-# Create run.sh
-cat > run.sh << 'SCRIPT'
-#!/bin/bash
-echo "🚀 Starting Spring Boot Application..."
-echo "📁 Project: $(basename $(pwd))"
-echo "☕ Java: $(java -version 2>&1 | head -n 1 | cut -d'"' -f2)"
-echo ""
-echo "🔄 Starting application..."
-echo "🌐 Will be available at: http://localhost:8080"
-echo "⏹️  Press Ctrl+C to stop"
-echo ""
-./mvnw spring-boot:run
-SCRIPT
-
-# Create dev.sh  
-cat > dev.sh << 'SCRIPT'
-#!/bin/bash
-echo "🔧 Starting in DEVELOPMENT mode..."
-echo "📋 Features: Hot reload, Debug logging, Dev profile"
-echo ""
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
-SCRIPT
-
-# Create build.sh
-cat > build.sh << 'SCRIPT'
-#!/bin/bash
-echo "🔨 Building Spring Boot Application..."
-echo ""
-echo "🧹 Cleaning..."
-./mvnw clean
-echo "📦 Building..."
-./mvnw package -DskipTests
-if [ $? -eq 0 ]; then
-    echo "✅ Build successful!"
-    ls -la target/*.jar
-else
-    echo "❌ Build failed!"
-    exit 1
-fi
-SCRIPT
-
-# Create test.sh
-cat > test.sh << 'SCRIPT'
-#!/bin/bash
-echo "🧪 Running Tests..."
-./mvnw test
-SCRIPT
-
-# Create clean.sh
-cat > clean.sh << 'SCRIPT'
-#!/bin/bash
-echo "🧹 Cleaning project..."
-./mvnw clean
-rm -f *.log nohup.out
-echo "✅ Cleaned!"
-SCRIPT
-
-# Make all executable
-chmod +x *.sh
-
-echo "✅ All scripts created!"
-echo ""
-echo "📋 Available commands:"
-echo "   ./run.sh     - Run application"
-echo "   ./dev.sh     - Development mode"
-echo "   ./build.sh   - Build project"
-echo "   ./test.sh    - Run tests"
-echo "   ./clean.sh   - Clean project"
-EOF
-
-# Run script generator
-chmod +x create-scripts.sh
-./create-scripts.sh
+**Response:**
+```json
+"Software Engineer with id 1 has been deleted successfully"
 ```
 
-## 🔄 Development Workflow
+## 📝 Request/Response Format
 
-### 📅 Daily Workflow:
-```bash
-# 1. Open terminal, navigate to project
-cd ~/workspace/learn/learn-spring
-
-# 2. Pull latest changes (if any)
-git pull
-
-# 3. Run application
-./run.sh
-
-# 4. Open browser: http://localhost:8080
-
-# 5. Edit code in VS Code
-
-# 6. Test changes (restart app if needed)
-
-# 7. Run tests
-./test.sh
-
-# 8. Commit changes
-git add .
-git commit -m "Add new feature"
-git push
+### Create/Update Request Body
+```json
+{
+  "name": "Engineer Name",        // Required, 2-100 characters
+  "techStack": "Technologies"     // Optional, max 500 characters
+}
 ```
 
-### 🔧 Development Mode:
-```bash
-# Run with auto-reload
-./dev.sh
-
-# Or manual
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+### Response Body
+```json
+{
+  "id": 1,
+  "name": "Engineer Name",
+  "techStack": "Technologies",
+  "createdAt": "2024-01-15T10:30:00",
+  "updatedAt": "2024-01-15T10:30:00"
+}
 ```
 
-## 🧪 Testing
+## ⚠️ Error Responses
 
-### Run All Tests:
-```bash
-./test.sh
-
-# Or manual
-./mvnw test
+### Validation Error (400 Bad Request)
+```json
+{
+  "status": 400,
+  "message": "Validation failed",
+  "errors": {
+    "name": "Name is required"
+  },
+  "path": "/api/v1/software-engineers"
+}
 ```
 
-### Run Specific Test:
-```bash
-./mvnw test -Dtest=LearnSpringApplicationTests
+### Not Found Error (404 Not Found)
+```json
+{
+  "status": 404,
+  "message": "Software Engineer with id 999 not found",
+  "path": "/api/v1/software-engineers/999",
+  "timestamp": "2024-01-15T11:30:00"
+}
 ```
 
-### Run Tests with Coverage:
-```bash
-./mvnw test jacoco:report
+### Server Error (500 Internal Server Error)
+```json
+{
+  "status": 500,
+  "message": "Internal server error: Database connection failed",
+  "path": "/api/v1/software-engineers",
+  "timestamp": "2024-01-15T11:30:00"
+}
 ```
 
-## 🔨 Build & Deploy
+## 🧪 Testing with Different Tools
 
-### Build JAR File:
+### Using cURL
+
+**Get all engineers:**
 ```bash
-./build.sh
-
-# Or manual
-./mvnw clean package
+curl -X GET http://localhost:8080/api/v1/software-engineers
 ```
 
-### Run JAR File:
+**Create new engineer:**
 ```bash
-# After building
-java -jar target/learn-spring-*.jar
-
-# With profile
-java -jar target/learn-spring-*.jar --spring.profiles.active=prod
-
-# With custom port
-java -jar target/learn-spring-*.jar --server.port=8081
+curl -X POST http://localhost:8080/api/v1/software-engineers \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Alice Johnson",
+    "techStack": "Python, Django, PostgreSQL, AWS"
+  }'
 ```
 
-### Background Process:
+**Update engineer:**
 ```bash
-# Run in background
-nohup java -jar target/learn-spring-*.jar > app.log 2>&1 &
-
-# Check process
-ps aux | grep java
-
-# Stop process
-pkill -f "learn-spring"
+curl -X PUT http://localhost:8080/api/v1/software-engineers/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Alice Johnson Updated",
+    "techStack": "Python, Django, PostgreSQL, AWS, Docker"
+  }'
 ```
 
-## 🚨 Troubleshooting
-
-### Common Issues:
-
-#### 1. **Port Already in Use**
+**Delete engineer:**
 ```bash
-# Find process using port 8080
+curl -X DELETE http://localhost:8080/api/v1/software-engineers/1
+```
+
+### Using Postman
+
+1. Import the collection or create requests manually
+2. Set the base URL: `http://localhost:8080`
+3. For POST/PUT requests:
+   - Set Content-Type header to `application/json`
+   - Add request body in JSON format
+
+## 🔍 Data Validation Rules
+
+| Field | Rules |
+|-------|-------|
+| name | Required, 2-100 characters |
+| techStack | Optional, max 500 characters |
+
+## 🐳 Docker Commands
+
+### Start the application
+```bash
+docker-compose up -d
+```
+
+### Stop the application
+```bash
+docker-compose down
+```
+
+### View logs
+```bash
+docker-compose logs -f app
+```
+
+### Reset database (⚠️ This will delete all data)
+```bash
+docker-compose down
+docker volume rm learn-spring_db_data
+docker-compose up -d
+```
+
+### Access PostgreSQL directly
+```bash
+docker exec -it postgres-spring-boot psql -U rifki -d springboot_db
+```
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**1. Port 8080 already in use**
+```bash
+# Check what's using port 8080
 lsof -i :8080
 
-# Kill process
-kill -9 <PID>
-
-# Or run on different port
-./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+# Kill the process or change port in docker-compose.yml
 ```
 
-#### 2. **Maven Wrapper Not Found**
+**2. Database connection failed**
 ```bash
-# Generate Maven wrapper
-mvn wrapper:wrapper
+# Check if PostgreSQL container is running
+docker ps
 
-# Or download manually
-curl -o mvnw https://repo1.maven.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar
+# Restart the database
+docker-compose restart db
 ```
 
-#### 3. **Java Version Issues**
+**3. Application won't start**
 ```bash
-# Check Java version
-java -version
+# Check application logs
+docker-compose logs app
 
-# Switch Java version (if using SDKMAN)
-sdk use java 21.0.7-amzn
+# Rebuild the application
+docker-compose up --build
 ```
 
-#### 4. **Permission Denied**
+### Health Check
 ```bash
-# Make scripts executable
-chmod +x *.sh
+# Check if application is healthy
+curl http://localhost:8080/
 
-# Make Maven wrapper executable
-chmod +x mvnw
+# Check database connection
+curl http://localhost:8080/api/v1/software-engineers
 ```
 
-### Debug Commands:
-```bash
-# Check project structure
-ls -la
+## 📊 Sample Data
 
-# Check dependencies
-./mvnw dependency:tree
+You can use this sample data to test the API:
 
-# Check plugins
-./mvnw help:effective-pom
-
-# Verbose output
-./mvnw spring-boot:run -X
+```json
+[
+  {
+    "name": "John Doe",
+    "techStack": "Java, Spring Boot, PostgreSQL, Docker"
+  },
+  {
+    "name": "Jane Smith",
+    "techStack": "JavaScript, React, Node.js, MongoDB"
+  },
+  {
+    "name": "Bob Wilson",
+    "techStack": "Python, Django, PostgreSQL, AWS"
+  },
+  {
+    "name": "Alice Johnson",
+    "techStack": "C#, .NET Core, SQL Server, Azure"
+  },
+  {
+    "name": "Charlie Brown",
+    "techStack": "Go, Docker, Kubernetes, Redis"
+  }
+]
 ```
 
-## 💡 Tips & Tricks
+## 🔒 Security Notes
 
-### 🚀 Quick Commands:
-```bash
-# Create aliases in ~/.zshrc or ~/.bashrc
-alias sb-run='./mvnw spring-boot:run'
-alias sb-dev='./mvnw spring-boot:run -Dspring-boot.run.profiles=dev'
-alias sb-build='./mvnw clean package'
-alias sb-test='./mvnw test'
-alias sb-clean='./mvnw clean'
+- This is a development setup without authentication
+- Database credentials are stored in plain text in docker-compose.yml
+- For production use, implement proper security measures
 
-# Reload shell
-source ~/.zshrc
-```
+## 📞 Support
 
-### 🔧 Environment Variables:
-```bash
-# Set environment variables
-export SPRING_PROFILES_ACTIVE=dev
-export SERVER_PORT=8081
-export JAVA_OPTS="-Xmx512m"
+If you encounter any issues:
 
-# Or create .env file
-cat > .env << EOF
-SPRING_PROFILES_ACTIVE=dev
-SERVER_PORT=8081
-DATABASE_URL=jdbc:h2:mem:testdb
-EOF
-```
-
-### 📊 Monitoring:
-```bash
-# Health check
-curl http://localhost:8080/actuator/health
-
-# Application info
-curl http://localhost:8080/actuator/info
-
-# Metrics
-curl http://localhost:8080/actuator/metrics
-```
-
-### 🎯 IDE Integration:
-```bash
-# Generate IDE files
-./mvnw idea:idea          # IntelliJ IDEA
-./mvnw eclipse:eclipse    # Eclipse
-
-# Import in VS Code
-# Just open folder in VS Code with Java extensions
-```
-
-## 📚 Learning Resources
-
-### 📖 Documentation:
-- [Spring Boot Official Docs](https://spring.io/projects/spring-boot)
-- [Maven Official Docs](https://maven.apache.org/guides/)
-- [Spring Boot Guides](https://spring.io/guides)
-
-### 🎓 Tutorials:
-- [Spring Boot Tutorial](https://www.baeldung.com/spring-boot)
-- [Maven Tutorial](https://www.baeldung.com/maven)
-
-## 🤝 Contributing
-
-### Development Setup:
-```bash
-# Fork the repository
-# Clone your fork
-git clone <your-fork-url>
-cd learn-spring
-
-# Create feature branch
-git checkout -b feature/new-feature
-
-# Make changes
-# Test changes
-./test.sh
-
-# Commit and push
-git add .
-git commit -m "Add new feature"
-git push origin feature/new-feature
-
-# Create pull request
-```
-
-## 📝 Project Structure
-
-```
-learn-spring/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/example/learn_spring/
-│   │   │       └── LearnSpringApplication.java
-│   │   └── resources/
-│   │       ├── application.properties
-│   │       └── application-dev.properties
-│   └── test/
-│       └── java/
-│           └── com/example/learn_spring/
-│               └── LearnSpringApplicationTests.java
-├── target/                 # Build output
-├── pom.xml                # Maven configuration
-├── mvnw                   # Maven wrapper (Unix)
-├── mvnw.cmd              # Maven wrapper (Windows)
-├── .mvn/                 # Maven wrapper config
-├── run.sh                # Run application
-├── dev.sh                # Development mode
-├── build.sh              # Build project
-├── test.sh               # Run tests
-├── clean.sh              # Clean project
-└── README.md             # This file
-```
-
-## 🎉 Quick Start
-
-```bash
-# 1. Navigate to project
-cd ~/workspace/learn/learn-spring
-
-# 2. Create helper scripts
-curl -sSL https://raw.githubusercontent.com/example/scripts/main/create-scripts.sh | bash
-
-# 3. Run application
-./run.sh
-
-# 4. Open browser
-open http://localhost:8080
-```
+1. Check the troubleshooting section above
+2. Verify Docker containers are running: `docker ps`
+3. Check application logs: `docker-compose logs app`
+4. Ensure all ports are available (8080 for app, 5432 for database)
 
 ---
 
-**Happy Coding! 🚀**
-
-> **Need help?** Check the [Troubleshooting](#-troubleshooting) section or create an issue.
-```
-
-## 🎯 Quick Setup Command
-
-```bash
-# Create README.md in your project
-cd ~/workspace/learn/learn-spring
-
-# Download this README
-curl -o README.md https://raw.githubusercontent.com/example/readme/main/README.md
-
-# Or create manually
-cat > README.md << 'EOF'
-[paste the content above]
-EOF
-
-echo "✅ README.md created!"
-```
-
-This README provides:
-- ✅ **Complete beginner guide** in English
-- ✅ **Step-by-step instructions**
-- ✅ **Automated scripts** for common tasks
-- ✅ **Troubleshooting section**
-- ✅ **Best practices** and tips
-- ✅ **Project structure** explanation
-- ✅ **Quick start** commands
-
-**Ready to use!** 🚀
+**Happy coding! 🚀**
