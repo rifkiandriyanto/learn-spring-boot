@@ -1,0 +1,25 @@
+services:
+  db:
+    container_name: postgres-spring-boot
+    image: postgres:15-alpine
+    platform: linux/arm64
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rifki
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: springboot_db
+      PGDATA: /data/postgres
+    volumes:
+      - db_data:/data/postgres
+    ports:
+      - "5332:5432"
+    networks:
+      - spring-network
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  spring-network:
+    driver: bridge
