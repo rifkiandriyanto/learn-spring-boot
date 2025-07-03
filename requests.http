@@ -1,4 +1,17 @@
-### Basic GET Request
+### Request 1 - Get Root
 GET http://localhost:8080
 
+### Request 2 - Get All Engineers  
 GET http://localhost:8080/api/v1/software-engineers
+
+### Request 2 - Get engineer by id  
+GET http://localhost:8080/api/v1/software-engineers/2
+
+### Request 3 - Create Engineer
+POST http://localhost:8080/api/v1/software-engineers
+Content-Type: application/json
+
+{
+  "name": "Jason Ranto",
+  "techStack": "Java, Spring Boot, Spring"
+}
