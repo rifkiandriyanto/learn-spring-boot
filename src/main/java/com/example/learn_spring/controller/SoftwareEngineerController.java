@@ -25,7 +25,7 @@ public class SoftwareEngineerController {
   }
 
   /**
-   * GET - Ambil semua software engineers
+   * GET - Retrieve all software engineers
    */
   @GetMapping
   public ResponseEntity<List<SoftwareEngineerResponse>> getAllEngineers() {
@@ -34,7 +34,7 @@ public class SoftwareEngineerController {
   }
 
   /**
-   * GET by ID - Ambil software engineer berdasarkan ID
+   * GET by ID - Retrieve software engineer by ID
    */
   @GetMapping("/{id}")
   public ResponseEntity<SoftwareEngineerResponse> getEngineerById(@PathVariable Integer id) {
@@ -43,7 +43,7 @@ public class SoftwareEngineerController {
   }
 
   /**
-   * POST - Buat software engineer baru
+   * POST - Create new software engineer
    */
   @PostMapping
   public ResponseEntity<SoftwareEngineerResponse> createSoftwareEngineer(
@@ -53,7 +53,7 @@ public class SoftwareEngineerController {
   }
 
   /**
-   * PUT - Update software engineer berdasarkan ID
+   * PUT - Update software engineer by ID
    */
   @PutMapping("/{id}")
   public ResponseEntity<SoftwareEngineerResponse> updateSoftwareEngineer(
@@ -64,7 +64,7 @@ public class SoftwareEngineerController {
   }
 
   /**
-   * DELETE - Hapus software engineer berdasarkan ID
+   * DELETE - Delete software engineer by ID
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteSoftwareEngineer(@PathVariable Integer id) {

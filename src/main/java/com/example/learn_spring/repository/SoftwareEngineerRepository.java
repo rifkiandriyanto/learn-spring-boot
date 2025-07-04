@@ -13,13 +13,13 @@ import java.util.Optional;
 @Repository
 public interface SoftwareEngineerRepository extends JpaRepository<SoftwareEngineer, Integer> {
 
-  // Custom query untuk mencari berdasarkan nama
+  // Custom query to search by name
   Optional<SoftwareEngineer> findByName(String name);
 
-  // Custom query untuk mencari berdasarkan tech stack
+  // Custom query to search by tech stack
   List<SoftwareEngineer> findByTechStackContainingIgnoreCase(String techStack);
 
-  // Custom query dengan JPQL
+  // Custom query with JPQL
   @Query("SELECT se FROM SoftwareEngineer se WHERE se.name LIKE %:name%")
   List<SoftwareEngineer> findByNameContaining(@Param("name") String name);
 }

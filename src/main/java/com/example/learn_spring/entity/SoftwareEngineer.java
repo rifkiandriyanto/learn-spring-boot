@@ -33,14 +33,14 @@ public class SoftwareEngineer {
   public SoftwareEngineer() {
   }
 
-  // Constructor dengan semua parameter
+  // Constructor with all parameters
   public SoftwareEngineer(Integer id, String name, String techStack) {
     this.id = id;
     this.name = name;
     this.techStack = techStack;
   }
 
-  // Constructor tanpa ID (untuk insert baru)
+  // Constructor without ID (for new insert)
   public SoftwareEngineer(String name, String techStack) {
     this.name = name;
     this.techStack = techStack;
