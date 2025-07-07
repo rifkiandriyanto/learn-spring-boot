@@ -7,35 +7,52 @@ GET http://localhost:8080/api/v1/software-engineers
 ### Request 3 - Get Engineer by ID  
 GET http://localhost:8080/api/v1/software-engineers/1
 
-### Request 4 - Create Engineer
+### Request 4 - Create Engineer (with AI Learning Path)
 POST http://localhost:8080/api/v1/software-engineers
 Content-Type: application/json
 
 {
-  "name": "Lisa",
-  "techStack": "Django, Spring Boot, PostgreSQL, Docker"
+  "name": "Raisa",
+  "techStack": "Java, Spring Boot, PostgreSQL, Docker"
 }
 
-### Request 5 - Update Engineer
+### Request 5 - Create Engineer dengan Tech Stack yang berbeda
+POST http://localhost:8080/api/v1/software-engineers
+Content-Type: application/json
+
+{
+  "name": "Sarah Chen",
+  "techStack": "React, Node.js, MongoDB, AWS"
+}
+
+### Request 6 - Update Engineer (akan update learning path juga)
 PUT http://localhost:8080/api/v1/software-engineers/1
 Content-Type: application/json
 
 {
   "name": "Jason Ranto Updated",
-  "techStack": "Java, Spring Boot, PostgreSQL, Docker, Kubernetes, React"
+  "techStack": "Java, Spring Boot, PostgreSQL, Docker, Kubernetes, React, Microservices"
 }
 
-### Request 6 - Delete Engineer
+### Request 7 - Delete Engineer
 DELETE http://localhost:8080/api/v1/software-engineers/1
 
-### Request 7 - Test Validation Error
-POST http://localhost:8080/api/v1/software-engineers
+### Request 8 - Test AI Learning Path (standalone)
+POST http://localhost:8080/api/v1/ai/learning-path
 Content-Type: application/json
 
 {
-  "name": "",
-  "techStack": "Java"
+  "name": "Alex Smith",
+  "techStack": "Python, Django, PostgreSQL, Redis"
 }
 
-### Request 8 - Test Not Found Error
-GET http://localhost:8080/api/v1/software-engineers/999
+### Request 9 - Test AI Chat
+POST http://localhost:8080/api/v1/ai/chat
+Content-Type: application/json
+
+{
+  "message": "What are the best practices for Spring Boot development?"
+}
+
+### Request 10 - Test AI Service
+GET http://localhost:8080/api/v1/ai/test

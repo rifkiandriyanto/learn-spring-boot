@@ -16,9 +16,12 @@ import com.example.learn_spring.repository.SoftwareEngineerRepository;
 public class SoftwareEngineerService {
 
   private final SoftwareEngineerRepository softwareEngineerRepository;
+  private final AiService aiService; // Added
 
-  public SoftwareEngineerService(SoftwareEngineerRepository softwareEngineerRepository) {
+  public SoftwareEngineerService(SoftwareEngineerRepository softwareEngineerRepository,
+      AiService aiService) { // Added
     this.softwareEngineerRepository = softwareEngineerRepository;
+    this.aiService = aiService; // Added
   }
 
   /**
@@ -42,12 +45,20 @@ public class SoftwareEngineerService {
   }
 
   /**
-   * POST - Buat software engineer baru
+   * POST - Buat software engineer baru dengan AI Learning Path
    */
   public SoftwareEngineerResponse createSoftwareEngineer(SoftwareEngineerRequest request) {
     SoftwareEngineer engineer = new SoftwareEngineer();
     engineer.setName(request.getName());
     engineer.setTechStack(request.getTechStack());
+
+    // Added: Generate learning path recommendation using AI
+    if (request.getTechStack() != null && !request.getTechStack().trim().isEmpty()) {
+      String learningPath = aiService.generateLearningPathRecommendation(
+          request.getName(),
+          request.getTechStack());
+      engineer.setLearningPathRecommendation(learningPath);
+    }
 
     SoftwareEngineer savedEngineer = softwareEngineerRepository.save(engineer);
     return convertToResponse(savedEngineer);
@@ -61,6 +72,14 @@ public class SoftwareEngineerService {
 
     existingEngineer.setName(request.getName());
     existingEngineer.setTechStack(request.getTechStack());
+
+    // Added: Update learning path if tech stack changed
+    if (request.getTechStack() != null && !request.getTechStack().trim().isEmpty()) {
+      String learningPath = aiService.generateLearningPathRecommendation(
+          request.getName(),
+          request.getTechStack());
+      existingEngineer.setLearningPathRecommendation(learningPath);
+    }
 
     SoftwareEngineer updatedEngineer = softwareEngineerRepository.save(existingEngineer);
     return convertToResponse(updatedEngineer);
@@ -91,6 +110,7 @@ public class SoftwareEngineerService {
         engineer.getId(),
         engineer.getName(),
         engineer.getTechStack(),
+        engineer.getLearningPathRecommendation(), // Added
         engineer.getCreatedAt(),
         engineer.getUpdatedAt());
   }

@@ -7,6 +7,7 @@ public class SoftwareEngineerResponse {
   private Integer id;
   private String name;
   private String techStack;
+  private String learningPathRecommendation; // Added
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
@@ -14,10 +15,12 @@ public class SoftwareEngineerResponse {
   }
 
   public SoftwareEngineerResponse(Integer id, String name, String techStack,
+      String learningPathRecommendation,
       LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.name = name;
     this.techStack = techStack;
+    this.learningPathRecommendation = learningPathRecommendation;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -45,6 +48,15 @@ public class SoftwareEngineerResponse {
 
   public void setTechStack(String techStack) {
     this.techStack = techStack;
+  }
+
+  // Added: Getter & Setter for learningPathRecommendation
+  public String getLearningPathRecommendation() {
+    return learningPathRecommendation;
+  }
+
+  public void setLearningPathRecommendation(String learningPathRecommendation) {
+    this.learningPathRecommendation = learningPathRecommendation;
   }
 
   public LocalDateTime getCreatedAt() {

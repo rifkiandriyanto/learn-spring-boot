@@ -21,6 +21,10 @@ public class SoftwareEngineer {
   @Column(name = "tech_stack")
   private String techStack;
 
+  // Added: Field for learning path recommendation
+  @Column(name = "learning_path_recommendation", columnDefinition = "TEXT")
+  private String learningPathRecommendation;
+
   @CreationTimestamp
   @Column(name = "created_at", updatable = false)
   private LocalDateTime createdAt;
@@ -33,14 +37,15 @@ public class SoftwareEngineer {
   public SoftwareEngineer() {
   }
 
-  // Constructor with all parameters
-  public SoftwareEngineer(Integer id, String name, String techStack) {
+  // Constructor dengan semua parameter
+  public SoftwareEngineer(Integer id, String name, String techStack, String learningPathRecommendation) {
     this.id = id;
     this.name = name;
     this.techStack = techStack;
+    this.learningPathRecommendation = learningPathRecommendation;
   }
 
-  // Constructor without ID (for new insert)
+  // Constructor tanpa ID (untuk insert baru)
   public SoftwareEngineer(String name, String techStack) {
     this.name = name;
     this.techStack = techStack;
@@ -71,6 +76,15 @@ public class SoftwareEngineer {
     this.techStack = techStack;
   }
 
+  // Added: Getter & Setter for learningPathRecommendation
+  public String getLearningPathRecommendation() {
+    return learningPathRecommendation;
+  }
+
+  public void setLearningPathRecommendation(String learningPathRecommendation) {
+    this.learningPathRecommendation = learningPathRecommendation;
+  }
+
   public LocalDateTime getCreatedAt() {
     return createdAt;
   }
@@ -89,7 +103,7 @@ public class SoftwareEngineer {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, techStack);
+    return Objects.hash(id, name, techStack, learningPathRecommendation);
   }
 
   @Override
@@ -102,7 +116,8 @@ public class SoftwareEngineer {
     SoftwareEngineer other = (SoftwareEngineer) obj;
     return Objects.equals(id, other.id) &&
         Objects.equals(name, other.name) &&
-        Objects.equals(techStack, other.techStack);
+        Objects.equals(techStack, other.techStack) &&
+        Objects.equals(learningPathRecommendation, other.learningPathRecommendation);
   }
 
   @Override
@@ -111,6 +126,7 @@ public class SoftwareEngineer {
         "id=" + id +
         ", name='" + name + '\'' +
         ", techStack='" + techStack + '\'' +
+        ", learningPathRecommendation='" + learningPathRecommendation + '\'' +
         ", createdAt=" + createdAt +
         ", updatedAt=" + updatedAt +
         '}';
